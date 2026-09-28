@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="description" content="Mundo Crece - Aprende, crea, juega y descubre. Plataforma educativa infantil.">
+<meta name="theme-color" content="#38bdf8">
+<title>Mundo Crece - Aprende, crea, juega y descubre</title>
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<a class="skip-link" href="#screens">Saltar al contenido</a>
+
+<div id="app">
+
+  <header id="topbar" class="topbar hidden">
+    <button id="btn-back" class="icon-btn" aria-label="Volver" title="Volver">
+      <svg viewBox="0 0 24 24" class="ico"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <div id="topbar-title" class="topbar-title">Inicio</div>
+    <div class="topbar-right">
+      <div id="level-chip" class="chip" title="Nivel actual">N1</div>
+      <button id="btn-sound" class="icon-btn" aria-label="Activar o silenciar sonidos" title="Sonidos">
+        <svg viewBox="0 0 24 24" class="ico ico-sound-on"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16 8a5 5 0 010 8"/><path d="M18.5 5.5a9 9 0 010 13"/></svg>
+        <svg viewBox="0 0 24 24" class="ico ico-sound-off hidden"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M17 9l5 6M22 9l-5 6"/></svg>
+      </button>
+      <button id="btn-voice" class="icon-btn" aria-label="Activar o desactivar voz" title="Voz">
+        <svg viewBox="0 0 24 24" class="ico"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0"/><path d="M12 18v3"/></svg>
+      </button>
+      <button id="btn-settings" class="icon-btn" aria-label="Configuración" title="Configuración">
+        <svg viewBox="0 0 24 24" class="ico"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main id="screens">
+
+    <!-- ================= BIENVENIDA ================= -->
+    <section id="screen-welcome" class="screen active" data-title="Bienvenido">
+      <div class="welcome">
+        <div class="hero-blobs" aria-hidden="true">
+          <span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span>
+        </div>
+        <div class="hero-content">
+          <div class="brand-mark" id="brand-mark"></div>
+          <h1 class="brand-title" data-brand="name">MUNDO CRECE</h1>
+          <p class="brand-sub" data-brand="tagline">Aprende, crea, juega y descubre.</p>
+
+          <div class="welcome-actions">
+            <button class="btn btn-primary btn-xl" id="btn-start">Comenzar</button>
+            <button class="btn btn-ghost hidden" id="btn-continue">Continuar mi aventura</button>
+            <div class="role-row">
+              <button class="btn btn-soft" data-role="student">Soy estudiante</button>
+              <button class="btn btn-soft" data-role="parent">Soy padre/madre</button>
+              <button class="btn btn-soft" data-role="teacher">Soy docente</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CONFIGURACIÓN DE PERFIL ================= -->
+    <section id="screen-setup" class="screen" data-title="Mi perfil">
+      <div class="pad">
+        <div class="card">
+          <h2 class="h2">Crea tu perfil</h2>
+          <p class="muted">Solo pedimos lo necesario. Nada de datos personales.</p>
+
+          <label class="field">
+            <span>Nombre o apodo</span>
+            <input type="text" id="setup-name" maxlength="20" placeholder="Escribe tu nombre" autocomplete="off">
+          </label>
+
+          <label class="field">
+            <span>Mi edad: <b id="setup-age-value">6</b> años</span>
+            <input type="range" id="setup-age" min="4" max="16" value="6" step="1">
+            <small id="setup-level-hint" class="muted"></small>
+          </label>
+
+          <div class="field">
+            <span>Elige tu personaje</span>
+            <div id="setup-characters" class="char-grid"></div>
+          </div>
+
+          <div class="field">
+            <span>¿Qué te gusta hacer?</span>
+            <div id="setup-prefs" class="chip-row"></div>
+          </div>
+
+          <div class="actions">
+            <button class="btn btn-primary" id="btn-save-profile">Guardar y continuar</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= DIAGNÓSTICO ================= -->
+    <section id="screen-diagnostic" class="screen" data-title="Vamos a conocernos">
+      <div class="pad">
+        <div class="card">
+          <h2 class="h2">Un juego cortito para conocernos</h2>
+          <p class="muted">No es un examen. Solo quiero ver qué cosas disfrutas.</p>
+          <div class="diag-areas" id="diag-areas"></div>
+          <div class="actions">
+            <button class="btn btn-primary" id="btn-start-diagnostic">Jugar</button>
+            <button class="btn btn-ghost" id="btn-skip-diagnostic">Ahora no</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PANEL DEL NIÑO ================= -->
+    <section id="screen-home" class="screen" data-title="Inicio">
+      <div class="pad">
+        <div class="greet card">
+          <div class="greet-avatar" id="home-avatar"></div>
+          <div>
+            <h2 class="h2" id="home-greeting">Hola</h2>
+            <p class="muted">¿Qué quieres aprender hoy?</p>
+          </div>
+        </div>
+
+        <div class="mission card" id="daily-mission-card">
+          <div class="mission-head">
+            <span class="tag tag-amber">Misión del día</span>
+            <button class="btn btn-mini" id="btn-open-mission">Ver</button>
+          </div>
+          <p id="daily-mission-text">Cargando misión...</p>
+        </div>
+
+        <div class="grid-cards" id="home-cards"></div>
+
+        <div class="split">
+          <div class="card small">
+            <h3 class="h3">Mi progreso</h3>
+            <div id="home-progress"></div>
+          </div>
+          <div class="card small">
+            <h3 class="h3">Mi proyecto actual</h3>
+            <div id="home-project" class="muted">Todavía no has guardado un proyecto.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= MENÚ ================= -->
+    <section id="screen-menu" class="screen" data-title="Menú">
+      <div class="pad">
+        <div class="grid-cards" id="menu-cards"></div>
+      </div>
+    </section>
+
+    <!-- ================= HUB CREAR ================= -->
+    <section id="screen-create" class="screen" data-title="Crear">
+      <div class="pad">
+        <div class="grid-cards" id="create-cards"></div>
+      </div>
+    </section>
+
+    <!-- ================= DIBUJO ================= -->
+    <section id="screen-draw" class="screen" data-title="Dibujar">
+      <div class="pad">
+        <div class="card no-pad">
+          <div class="seg" id="draw-modes">
+            <button class="seg-btn active" data-mode="free">Dibujo libre</button>
+            <button class="seg-btn" data-mode="guided">Dibujo guiado</button>
+            <button class="seg-btn" data-mode="instructed">Según instrucciones</button>
+            <button class="seg-btn" data-mode="describe">Dibuja y describe</button>
+          </div>
+          <div class="prompt-bar" id="draw-prompt"></div>
+          <div class="canvas-wrap ratio-4x3">
+            <canvas id="canvas-draw" class="pad-canvas"></canvas>
+          </div>
+          <div class="toolbar" id="draw-toolbar"></div>
+          <div class="guided-steps hidden" id="draw-guided-steps"></div>
+          <div class="describe-box hidden" id="draw-describe">
+            <textarea id="draw-desc-text" rows="3" placeholder="Cuéntame qué dibujaste..."></textarea>
+            <div class="actions">
+              <button class="btn btn-soft" id="btn-draw-speak">Hablar</button>
+              <button class="btn btn-primary" id="btn-draw-desc-save">Guardar dibujo</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CUADERNO ================= -->
+    <section id="screen-notebook" class="screen" data-title="Cuaderno digital">
+      <div class="pad">
+        <div class="card no-pad">
+          <div class="canvas-wrap ratio-4x3">
+            <canvas id="canvas-notebook" class="pad-canvas"></canvas>
+          </div>
+          <div class="toolbar" id="notebook-toolbar"></div>
+          <div class="actions">
+            <button class="btn btn-soft" id="btn-nb-page-prev">Pagina anterior</button>
+            <span class="muted" id="nb-page-label">Pagina 1</span>
+            <button class="btn btn-soft" id="btn-nb-page-next">Pagina siguiente</button>
+            <button class="btn btn-primary" id="btn-nb-save">Guardar paginas</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= COLOREAR ================= -->
+    <section id="screen-color" class="screen" data-title="Colorear">
+      <div class="pad">
+        <div class="card no-pad">
+          <div class="seg" id="color-cats"></div>
+          <div class="seg" id="color-list"></div>
+          <div class="color-stage">
+            <svg id="color-svg" viewBox="0 0 400 300" role="img" aria-label="Dibujo para colorear"></svg>
+          </div>
+          <div class="toolbar" id="color-toolbar"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= ESCRITURA / TRAZADO ================= -->
+    <section id="screen-trace" class="screen" data-title="Escribir">
+      <div class="pad">
+        <div class="card no-pad">
+          <div class="seg" id="trace-kind">
+            <button class="seg-btn active" data-kind="letter">Letras</button>
+            <button class="seg-btn" data-kind="number">Numeros</button>
+            <button class="seg-btn" data-kind="word">Palabras</button>
+          </div>
+          <div class="seg wrap" id="trace-picker"></div>
+          <div class="canvas-wrap ratio-4x3">
+            <canvas id="canvas-trace" class="pad-canvas"></canvas>
+            <div class="trace-target" id="trace-target"></div>
+          </div>
+          <div class="trace-progress"><div id="trace-bar"></div></div>
+          <div class="actions">
+            <button class="btn btn-soft" id="btn-trace-clear">Borrar</button>
+            <button class="btn btn-soft" id="btn-trace-listen">Escuchar</button>
+            <button class="btn btn-ghost" id="btn-trace-guide">Quitar guia</button>
+            <button class="btn btn-primary" id="btn-trace-check">Comprobar</button>
+          </div>
+          <p class="feedback-line" id="trace-feedback"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= ACTIVIDADES (Motor genérico) ================= -->
+    <section id="screen-activity" class="screen" data-title="Actividad">
+      <div class="pad">
+        <div id="activity-stage" class="card no-pad"></div>
+      </div>
+    </section>
+
+    <!-- ================= MENÚ DE ÁREAS ================= -->
+    <section id="screen-area" class="screen" data-title="Área">
+      <div class="pad">
+        <div id="area-head" class="card"></div>
+        <div class="grid-cards" id="area-cards"></div>
+        <div id="area-list" class="list"></div>
+      </div>
+    </section>
+
+    <!-- ================= LEER ================= -->
+    <section id="screen-read" class="screen" data-title="Leer">
+      <div class="pad">
+        <div class="seg" id="read-tabs">
+          <button class="seg-btn active" data-tab="letters">Letras</button>
+          <button class="seg-btn" data-tab="syllables">Silabas</button>
+          <button class="seg-btn" data-tab="words">Palabras</button>
+          <button class="seg-btn" data-tab="stories">Cuentos</button>
+        </div>
+        <div id="read-content"></div>
+      </div>
+    </section>
+
+    <!-- ================= CUENTO INTERACTIVO ================= -->
+    <section id="screen-story" class="screen" data-title="Cuento interactivo">
+      <div class="pad">
+        <div class="card story-card">
+          <div class="story-art" id="story-art"></div>
+          <p id="story-text" class="story-text"></p>
+          <div class="actions">
+            <button class="btn btn-soft" id="btn-story-listen">Escuchar</button>
+            <button class="btn btn-ghost" id="btn-story-restart">Empezar de nuevo</button>
+          </div>
+          <div id="story-choices" class="choices"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CREAR CUENTO ================= -->
+    <section id="screen-story-create" class="screen" data-title="Crea tu cuento">
+      <div class="pad" id="story-create-body"></div>
+    </section>
+
+    <!-- ================= CONSTRUCCIÓN ================= -->
+    <section id="screen-build" class="screen" data-title="Construir">
+      <div class="pad">
+        <div class="card no-pad">
+          <div class="seg" id="build-challenges"></div>
+          <div class="build-stage" id="build-stage">
+            <div id="build-canvas" class="build-canvas"></div>
+          </div>
+          <div class="toolbar" id="build-toolbar"></div>
+          <div class="build-palette" id="build-palette"></div>
+          <div class="actions">
+            <button class="btn btn-primary" id="btn-build-check">Comprobar reto</button>
+            <button class="btn btn-soft" id="btn-build-explain">Explicar mi construccion</button>
+            <button class="btn btn-ghost" id="btn-build-clear">Limpiar</button>
+          </div>
+          <p class="feedback-line" id="build-feedback"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= DISEÑO ================= -->
+    <section id="screen-design" class="screen" data-title="Laboratorio de diseño">
+      <div class="pad">
+        <div class="grid-cards" id="design-cards"></div>
+      </div>
+    </section>
+
+    <!-- ================= ROMPECABEZAS ================= -->
+    <section id="screen-puzzles" class="screen" data-title="Juegos y rompecabezas">
+      <div class="pad">
+        <div class="seg" id="puzzle-tabs"></div>
+        <div id="puzzle-stage" class="card no-pad"></div>
+      </div>
+    </section>
+
+    <!-- ================= PROGRAMAR ================= -->
+    <section id="screen-code" class="screen" data-title="Programar">
+      <div class="pad">
+        <div class="card no-pad">
+          <div class="seg" id="code-tabs">
+            <button class="seg-btn active" data-tab="robot">Robot</button>
+            <button class="seg-btn" data-tab="blocks">Bloques</button>
+          </div>
+          <div class="code-lab">
+            <div class="code-canvas-wrap">
+              <canvas id="canvas-code" width="480" height="360"></canvas>
+            </div>
+            <div class="code-side">
+              <div class="code-palette" id="code-palette"></div>
+              <div class="code-program" id="code-program"></div>
+              <div class="actions">
+                <button class="btn btn-primary" id="btn-code-run">Ejecutar</button>
+                <button class="btn btn-soft" id="btn-code-step">Paso a paso</button>
+                <button class="btn btn-ghost" id="btn-code-clear">Borrar</button>
+              </div>
+            </div>
+          </div>
+          <p class="feedback-line" id="code-feedback"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= MÚSICA ================= -->
+    <section id="screen-music" class="screen" data-title="Música">
+      <div class="pad">
+        <div class="seg" id="music-tabs">
+          <button class="seg-btn active" data-tab="piano">Piano</button>
+          <button class="seg-btn" data-tab="rhythm">Secuencia</button>
+          <button class="seg-btn" data-tab="sounds">Reconocer sonidos</button>
+        </div>
+        <div id="music-stage" class="card no-pad"></div>
+      </div>
+    </section>
+
+    <!-- ================= CIENCIA ================= -->
+    <section id="screen-science" class="screen" data-title="Ciencia">
+      <div class="pad">
+        <div class="seg" id="science-tabs"></div>
+        <div id="science-stage"></div>
+      </div>
+    </section>
+
+    <!-- ================= EMOCIONES ================= -->
+    <section id="screen-emotions" class="screen" data-title="Emociones">
+      <div class="pad">
+        <div class="seg" id="emotion-tabs">
+          <button class="seg-btn active" data-tab="faces">Cara</button>
+          <button class="seg-btn" data-tab="help">Ayudar</button>
+          <button class="seg-btn" data-tab="social">Convivir</button>
+        </div>
+        <div id="emotion-stage"></div>
+      </div>
+    </section>
+
+    <!-- ================= MISIONES ================= -->
+    <section id="screen-missions" class="screen" data-title="Misiones">
+      <div class="pad">
+        <div class="seg" id="mission-tabs">
+          <button class="seg-btn active" data-tab="daily">Del dia</button>
+          <button class="seg-btn" data-tab="weekly">De la semana</button>
+          <button class="seg-btn" data-tab="challenge">Máquina de retos</button>
+        </div>
+        <div id="mission-stage"></div>
+      </div>
+    </section>
+
+    <!-- ================= LOGROS ================= -->
+    <section id="screen-achievements" class="screen" data-title="Logros">
+      <div class="pad">
+        <div id="ach-summary" class="card"></div>
+        <h3 class="h3">Mapa de aprendizaje</h3>
+        <div id="learning-map" class="map-grid"></div>
+        <h3 class="h3">Insignias y trofeos</h3>
+        <div id="badge-grid" class="badge-grid"></div>
+      </div>
+    </section>
+
+    <!-- ================= PROYECTOS ================= -->
+    <section id="screen-projects" class="screen" data-title="Mis proyectos">
+      <div class="pad">
+        <div class="actions">
+          <button class="btn btn-soft" id="btn-export-projects">Exportar mis datos</button>
+          <label class="btn btn-ghost file-btn">Importar
+            <input type="file" id="import-projects" accept="application/json" hidden>
+          </label>
+        </div>
+        <div id="projects-list" class="list"></div>
+      </div>
+    </section>
+
+    <!-- ================= PANEL DE PADRES ================= -->
+    <section id="screen-parent" class="screen" data-title="Panel de padres">
+      <div class="pad">
+        <div id="parent-lock" class="card">
+          <h2 class="h2">Area de personas adultas</h2>
+          <p class="muted">Escribe el PIN para entrar.</p>
+          <div class="pin-row" id="pin-row"></div>
+          <input type="password" id="pin-input" inputmode="numeric" maxlength="6" class="pin-input" aria-label="PIN">
+          <div class="actions">
+            <button class="btn btn-primary" id="btn-pin-ok">Entrar</button>
+            <button class="btn btn-ghost" id="btn-pin-help">No se mi PIN</button>
+          </div>
+          <p class="feedback-line" id="pin-feedback"></p>
+        </div>
+        <div id="parent-panel" class="hidden"></div>
+      </div>
+    </section>
+
+    <!-- ================= PANEL DOCENTE ================= -->
+    <section id="screen-teacher" class="screen" data-title="Panel docente">
+      <div class="pad">
+        <div class="seg" id="teacher-tabs">
+          <button class="seg-btn active" data-tab="generator">Generador</button>
+          <button class="seg-btn" data-tab="assign">Asignar</button>
+          <button class="seg-btn" data-tab="results">Resultados</button>
+          <button class="seg-btn" data-tab="brand">Nombre</button>
+        </div>
+        <div id="teacher-stage"></div>
+      </div>
+    </section>
+
+    <!-- ================= CONFIGURACIÓN ================= -->
+    <section id="screen-settings" class="screen" data-title="Configuración">
+      <div class="pad">
+        <div class="card" id="settings-body"></div>
+      </div>
+    </section>
+
+    <!-- ================= DESCANSO ================= -->
+    <section id="screen-rest" class="screen" data-title="Descanso">
+      <div class="pad">
+        <div class="card rest-card">
+          <div class="rest-art" id="rest-art"></div>
+          <h2 class="h2">Es momento de descansar</h2>
+          <p class="muted">Levántate, mueve un poco el cuerpo y descansa los ojos mirando algo lejano.</p>
+          <div class="rest-timer" id="rest-timer">00:30</div>
+          <div class="actions">
+            <button class="btn btn-primary" id="btn-rest-done">Ya descanse</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <nav id="bottomnav" class="bottomnav hidden" aria-label="Navegación principal"></nav>
+</div>
+
+<div id="modal-root"></div>
+<div id="toast" role="status" aria-live="polite"></div>
+<div id="confetti-layer" aria-hidden="true"></div>
+
+<script src="js/icons.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/state.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/speech.js"></script>
+<script src="js/feedback.js"></script>
+<script src="js/canvas.js"></script>
+<script src="js/data.js"></script>
+<script src="js/activities.js"></script>
+<script src="js/creative.js"></script>
+<script src="js/language.js"></script>
+<script src="js/math.js"></script>
+<script src="js/labs.js"></script>
+<script src="js/missions.js"></script>
+<script src="js/panels.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

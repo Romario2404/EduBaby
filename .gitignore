@@ -1,0 +1,11 @@
+# Dependencias locales (solo para la prueba de humo)
+node_modules/
+
+# Artefactos de pruebas
+out.txt
+err.txt
+*.log
+
+# Archivos del sistema
+Thumbs.db
+.DS_Store

@@ -1,0 +1,20 @@
+{
+  "name": "Mundo Crece - Aprende, crea, juega y descubre",
+  "short_name": "Mundo Crece",
+  "description": "Plataforma educativa infantil interactiva para niños desde los 4 años.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f8fafc",
+  "theme_color": "#38bdf8",
+  "lang": "es",
+  "icons": [
+    {
+      "src": "assets/icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
